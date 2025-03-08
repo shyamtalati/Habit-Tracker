@@ -214,7 +214,7 @@ h2.text-xl, h2.section-title {
 
 /* Add more space between "Add New Topic" and the input field */
 form.flex.items-center {
-  margin-top: 15px !important;
+  margin-top: 30px !important;
 }
 
 /* Better spacing between form elements */
