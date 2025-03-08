@@ -1,13 +1,11 @@
-/* Reset everything first */
+/* Base Reset */
 * {
   box-sizing: border-box;
   margin: 0;
   padding: 0;
-  border: none !important;
-  box-shadow: none !important;
 }
 
-/* Simple body background */
+/* Body styling */
 body {
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
   background-color: #e8f4fc;
@@ -15,94 +13,207 @@ body {
   line-height: 1.6;
   display: flex;
   justify-content: center;
+  padding: 20px;
 }
 
 /* Root container */
 #root {
   width: 100%;
-  max-width: 800px;
-  padding: 20px;
+  max-width: 1000px;
 }
 
-/* Remove all borders, margins, and padding from divs */
-div {
-  border: none !important;
-  box-shadow: none !important;
-  background: transparent;
-}
-
-/* Main content container */
+/* Main container styling */
 #root > div {
-  background-color: white;
-  padding: 20px;
   border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+  background-color: white;
+}
+
+/* Header section - top tier */
+.app-header, h1:first-of-type {
+  background: linear-gradient(135deg, #4a90e2, #3b82f6);
+  color: white;
+  padding: 20px;
+  text-align: center;
   width: 100%;
 }
 
-/* Header styling */
-h1 {
-  font-size: 24px;
-  margin-bottom: 5px;
+.app-subtitle, h1 + p {
   text-align: center;
-  color: #2c4c7c;
-}
-
-p {
-  text-align: center;
-  margin-bottom: 20px;
-}
-
-/* Navigation buttons */
-button {
-  padding: 8px 16px;
-  margin: 0 5px;
-  background-color: #4a90e2;
   color: white;
-  border-radius: 4px;
-  cursor: pointer;
+  margin-top: -5px;
+  padding-bottom: 10px;
+  background: linear-gradient(135deg, #4a90e2, #3b82f6);
 }
 
-/* Center the navigation buttons */
-div:has(button) {
+/* Navigation section - second tier */
+.nav-buttons, div:has(button):first-of-type {
   display: flex;
   justify-content: center;
-  margin: 20px 0;
-  width: 100%;
+  gap: 15px;
+  padding: 15px;
+  background-color: #f0f7ff;
+  border-bottom: 1px solid #d0e1f9;
 }
 
-/* Form elements */
-input[type="text"] {
-  padding: 8px;
-  border: 1px solid #ccc !important;
+/* Button styling */
+.nav-button, button {
+  padding: 8px 16px;
+  background-color: #4a90e2;
+  color: white;
+  border: none;
   border-radius: 4px;
-  width: 70%;
-  margin-right: 10px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  font-size: 14px;
+  transition: all 0.2s;
 }
 
+.nav-button:hover, button:hover {
+  background-color: #3a7bd5;
+  transform: translateY(-1px);
+}
+
+/* Main content area - third tier */
+.app-main, #root > div > div:nth-child(2) {
+  padding: 20px;
+  background-color: white;
+}
+
+/* Section headings */
+.section-title, h2 {
+  font-size: 20px;
+  font-weight: 600;
+  margin: 15px 0;
+  color: #2c4c7c;
+  text-align: center;
+}
+
+/* Add topic form */
 form, div:has(input) {
   display: flex;
   justify-content: center;
   align-items: center;
-  margin: 20px 0;
+  margin: 15px auto;
+  max-width: 600px;
 }
 
-/* Section headings */
-h2, h3 {
-  text-align: center;
-  margin: 20px 0 10px;
+input[type="text"] {
+  flex: 1;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  margin-right: 10px;
+}
+
+input[type="text"]:focus {
+  outline: none;
+  border-color: #4a90e2;
+  box-shadow: 0 0 0 3px rgba(74, 144, 226, 0.1);
+}
+
+button[type="submit"], button:has(svg) {
+  padding: 10px;
+  min-width: 80px;
+}
+
+/* Topic cards */
+.topic-card, div:has(h3) {
+  background-color: #f9fbff;
+  border-radius: 8px;
+  padding: 15px;
+  margin: 15px auto;
+  max-width: 600px;
+  border-left: 4px solid #4a90e2;
+}
+
+.topic-name, h3 {
+  font-size: 18px;
+  font-weight: 600;
+  margin-bottom: 10px;
   color: #2c4c7c;
+  text-align: center;
 }
 
-/* Topic information */
-.topic-info, div:has(h3) {
-  text-align: center;
-  margin: 15px 0;
+/* Stats grid */
+.stats-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 10px;
+  margin-bottom: 15px;
 }
 
-/* Footer */
-div:last-child {
+.stat-item {
+  background-color: #f0f7ff;
+  padding: 10px;
+  border-radius: 4px;
   text-align: center;
-  margin-top: 30px;
-  font-size: 0.9em;
-  color: #666;
+}
+
+.stat-label {
+  color: #4a5568;
+  font-size: 14px;
+}
+
+.stat-value {
+  font-weight: bold;
+  color: #2c4c7c;
+  font-size: 16px;
+}
+
+/* Recommendation box */
+.recommendation {
+  background-color: #e6f0ff;
+  padding: 12px;
+  border-radius: 4px;
+  font-size: 14px;
+  border-left: 3px solid #4a90e2;
+  text-align: center;
+  margin-top: 10px;
+}
+
+/* Footer section - bottom tier */
+.app-footer, div:last-child:has(span:contains("2025")) {
+  background-color: #4a90e2;
+  color: white;
+  text-align: center;
+  padding: 15px;
+  font-size: 14px;
+  margin-top: auto;
+}
+
+/* Fix specific elements */
+#dashboard, #logTime, #logGrade {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+/* Responsive adjustments */
+@media (max-width: 600px) {
+  body {
+    padding: 10px;
+  }
+  
+  .nav-buttons {
+    flex-direction: column;
+    gap: 5px;
+  }
+  
+  .stats-grid {
+    grid-template-columns: 1fr;
+  }
+  
+  form, div:has(input) {
+    flex-direction: column;
+  }
+  
+  input[type="text"] {
+    width: 100%;
+    margin-right: 0;
+    margin-bottom: 10px;
+  }
 }
