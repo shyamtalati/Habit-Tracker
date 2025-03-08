@@ -5,11 +5,12 @@
   padding: 0;
 }
 
+/* Main body styling with light blue background */
 body {
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
   line-height: 1.6;
   color: #333;
-  background-color: #f5f5f5;
+  background-color: #e8f4fc; /* Light blue background */
 }
 
 /* Layout */
@@ -19,10 +20,12 @@ body {
   min-height: 100vh;
 }
 
+/* Header with gradient */
 .app-header {
-  background-color: #3b82f6;
+  background: linear-gradient(135deg, #4a90e2, #3b82f6);
   color: white;
   padding: 1rem;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
 .app-title {
@@ -32,8 +35,10 @@ body {
 
 .app-subtitle {
   font-size: 0.875rem;
+  opacity: 0.9;
 }
 
+/* Navigation */
 .app-nav {
   background-color: white;
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
@@ -48,32 +53,34 @@ body {
 .nav-button {
   display: flex;
   align-items: center;
-  padding: 0.5rem;
+  padding: 0.75rem 1rem;
   border: none;
   background: none;
   color: #666;
   cursor: pointer;
   border-radius: 0.25rem;
+  transition: all 0.2s;
 }
 
 .nav-button:hover {
-  background-color: #f3f4f6;
+  background-color: #f0f7ff;
 }
 
 .nav-button.active {
   color: #3b82f6;
   font-weight: bold;
+  background-color: #f0f7ff;
 }
 
 .icon {
   width: 1.25rem;
   height: 1.25rem;
-  margin-right: 0.25rem;
+  margin-right: 0.5rem;
 }
 
 .app-main {
   flex: 1;
-  padding: 1rem;
+  padding: 1.5rem;
   overflow-y: auto;
 }
 
@@ -83,58 +90,121 @@ body {
   padding: 1rem;
   color: #666;
   font-size: 0.875rem;
+  border-top: 1px solid #e5e7eb;
 }
 
 /* Common Components */
 .section {
-  margin-bottom: 1.5rem;
+  margin-bottom: 2rem;
 }
 
 .section-title {
   font-size: 1.25rem;
   font-weight: 600;
   margin-bottom: 1rem;
+  color: #2c4c7c;
 }
 
 .empty-message {
   color: #666;
+  padding: 1rem;
+  background-color: #f8fafc;
+  border-radius: 0.5rem;
+  text-align: center;
 }
 
 /* Forms */
 .add-topic-form {
   display: flex;
   align-items: center;
+  margin-bottom: 1.5rem;
 }
 
-.text-input, .number-input, .date-input, .select-input, .textarea-input {
+.text-input, .textarea-input {
   width: 100%;
-  padding: 0.5rem;
+  padding: 0.75rem;
   border: 1px solid #ccc;
   border-radius: 0.25rem;
   margin-bottom: 0.5rem;
+  transition: border-color 0.2s;
+}
+
+.text-input:focus, .textarea-input:focus {
+  border-color: #4a90e2;
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(74, 144, 226, 0.1);
+}
+
+.number-input, .date-input {
+  width: 100%;
+  padding: 0.75rem;
+  border: 1px solid #ccc;
+  border-radius: 0.25rem;
+  margin-bottom: 0.5rem;
+  transition: border-color 0.2s;
+}
+
+.number-input:focus, .date-input:focus {
+  border-color: #4a90e2;
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(74, 144, 226, 0.1);
+}
+
+/* Enhanced dropdowns */
+.select-input {
+  width: 100%;
+  padding: 0.75rem;
+  border: 1px solid #ccc;
+  border-radius: 0.25rem;
+  margin-bottom: 0.5rem;
+  background-color: white;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  appearance: none; /* Removes default dropdown arrow */
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%233b82f6' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 0.75rem center;
+  background-size: 1rem;
+  transition: border-color 0.2s;
+}
+
+.select-input:focus {
+  border-color: #4a90e2;
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(74, 144, 226, 0.1);
 }
 
 .textarea-input {
   resize: vertical;
+  min-height: 100px;
 }
 
 .button {
-  padding: 0.5rem;
+  padding: 0.5rem 1rem;
   border: none;
   border-radius: 0.25rem;
   cursor: pointer;
   display: flex;
   align-items: center;
   justify-content: center;
+  font-weight: 500;
+  transition: all 0.2s;
 }
 
 .button.primary {
-  background-color: #3b82f6;
+  background-color: #4a90e2;
   color: white;
+  padding: 0.6rem 1rem;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
 }
 
 .button.primary:hover {
-  background-color: #2563eb;
+  background-color: #3a7bd5;
+  transform: translateY(-1px);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.15);
+}
+
+.button.primary:active {
+  transform: translateY(0);
 }
 
 .full-width {
@@ -142,79 +212,101 @@ body {
 }
 
 .form-group {
-  margin-bottom: 1rem;
+  margin-bottom: 1.25rem;
 }
 
 .form-label {
   display: block;
-  color: #333;
+  color: #4a5568;
   margin-bottom: 0.5rem;
+  font-weight: 500;
 }
 
+/* Updated card styling */
 .form-card {
   background-color: white;
-  padding: 1rem;
-  border-radius: 0.25rem;
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  padding: 1.25rem;
+  border-radius: 0.5rem;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.08);
+  border-left: 4px solid #4a90e2;
+  transition: transform 0.2s ease;
+  margin-bottom: 1.5rem;
 }
 
 /* Topic Cards */
 .topic-grid {
   display: grid;
   grid-template-columns: 1fr;
-  gap: 1rem;
+  gap: 1.25rem;
 }
 
 .topic-card {
   background-color: white;
-  padding: 1rem;
-  border-radius: 0.25rem;
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  padding: 1.25rem;
+  border-radius: 0.5rem;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.08);
+  border-left: 4px solid #4a90e2;
+  transition: transform 0.2s ease;
+}
+
+.topic-card:hover {
+  transform: translateY(-2px);
 }
 
 .topic-name {
   font-size: 1.125rem;
   font-weight: 600;
-  margin-bottom: 0.5rem;
+  margin-bottom: 0.75rem;
+  color: #2c4c7c;
 }
 
+/* Enhanced stats section */
 .stats-grid {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: 0.5rem;
-  margin-bottom: 0.75rem;
+  gap: 0.75rem;
+  margin-bottom: 1rem;
 }
 
 .stat-item {
-  background-color: #f3f4f6;
-  padding: 0.5rem;
+  background-color: #f0f7ff;
+  padding: 0.75rem;
   border-radius: 0.25rem;
+  border-bottom: 2px solid #4a90e2;
 }
 
 .stat-label {
-  color: #666;
+  color: #4a5568;
   font-size: 0.875rem;
 }
 
 .stat-value {
   font-weight: bold;
+  color: #2c4c7c;
+  font-size: 1.125rem;
 }
 
 .recommendation {
   background-color: #e6f0ff;
-  padding: 0.5rem;
+  padding: 0.75rem;
   border-radius: 0.25rem;
   font-size: 0.875rem;
+  border-left: 3px solid #4a90e2;
 }
 
 .recommendation-label {
-  color: #333;
+  color: #2c4c7c;
   font-weight: 600;
+  margin-bottom: 0.25rem;
 }
 
 /* Responsive Design */
 @media (min-width: 768px) {
   .topic-grid {
     grid-template-columns: 1fr 1fr;
+  }
+  
+  .app-main {
+    padding: 2rem;
   }
 }

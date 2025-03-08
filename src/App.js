@@ -393,7 +393,7 @@ export default function HabitTracker() {
       
       {/* Footer */}
       <footer className="bg-gray-100 p-4 text-center text-gray-500 text-sm">
-        Habit Tracker App • Data stored in your browser's localStorage
+        Habit Tracker App © 2025
       </footer>
     </div>
   );
