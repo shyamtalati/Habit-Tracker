@@ -206,3 +206,55 @@ div:has(> h3) {
 .confirm-delete-actions button {
   min-width: 100px;
 }
+
+/* Better spacing for section headings and content */
+h2.text-xl, h2.section-title {
+  margin-bottom: 20px !important; /* More space below headings */
+}
+
+/* Add more space between "Add New Topic" and the input field */
+form.flex.items-center {
+  margin-top: 15px !important;
+}
+
+/* Better spacing between form elements */
+.mb-4 {
+  margin-bottom: 25px !important; /* Increase default spacing between form groups */
+}
+
+/* Add more space between nav icons */
+.nav-buttons button, 
+div.flex.justify-around button,
+button[id^="dashboard"], 
+button[id^="log"] {
+  margin: 0 15px !important; /* More horizontal spacing between buttons */
+}
+
+/* Add more space above "Your Topics" section */
+h2:contains("Your Topics") {
+  margin-top: 30px !important;
+}
+
+/* Add more space above form labels */
+label.block {
+  margin-bottom: 10px !important;
+}
+
+/* Add more space above input fields */
+input[type="text"], 
+input[type="number"], 
+input[type="date"],
+select, 
+textarea {
+  margin-top: 5px !important;
+}
+
+/* Better spacing for dropdown filter above topic cards */
+div:has(select) {
+  margin-bottom: 20px !important;
+}
+
+/* Increase spacing for content sections */
+.flex-1.p-4 > div {
+  padding: 20px !important;
+}
