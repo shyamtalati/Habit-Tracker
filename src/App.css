@@ -127,3 +127,82 @@ div:has(> h3) {
   background-color: #4a90e2 !important;
   color: white;
 }
+
+/* Topic card delete button */
+.topic-delete-button {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  background-color: #e74c3c !important;
+  color: white !important;
+  width: 30px !important;
+  height: 30px !important;
+  border-radius: 50% !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  cursor: pointer;
+  font-size: 16px;
+  opacity: 0.8;
+  transition: all 0.2s;
+}
+
+.topic-delete-button:hover {
+  opacity: 1;
+  transform: scale(1.1);
+  background-color: #c0392b !important;
+}
+
+/* Make the topic card position relative to contain the absolute positioned button */
+.topic-card,
+div:has(> h3) {
+  position: relative !important;
+  background-color: #f9fbff !important;
+  border-radius: 8px !important;
+  padding: 15px !important;
+  margin: 15px auto !important;
+  max-width: 600px;
+  border-left: 4px solid #4a90e2 !important;
+}
+
+/* Add delete icon (X) */
+.topic-delete-button::before {
+  content: "×";
+  font-size: 22px;
+  line-height: 1;
+  font-weight: bold;
+}
+
+/* Add confirmation modal styling if needed */
+.confirm-delete-modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0,0,0,0.5) !important;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+}
+
+.confirm-delete-content {
+  background-color: white !important;
+  padding: 20px !important;
+  border-radius: 8px !important;
+  max-width: 400px;
+  width: 90%;
+  text-align: center;
+}
+
+.confirm-delete-actions {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  margin-top: 20px;
+}
+
+.confirm-delete-actions button {
+  min-width: 100px;
+}
