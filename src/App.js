@@ -19,6 +19,8 @@ export default function HabitTracker() {
   const [gradeValue, setGradeValue] = useState('');
   const [gradeDate, setGradeDate] = useState('');
   const [gradeNotes, setGradeNotes] = useState('');
+  // State for filtering topics
+  const [filteredTopic, setFilteredTopic] = useState('all');
 
   // Load data from localStorage on component mount
   useEffect(() => {
@@ -52,6 +54,18 @@ export default function HabitTracker() {
     
     setTopics([...topics, newTopicObj]);
     setNewTopic('');
+  };
+
+  // Delete a topic
+  const handleDeleteTopic = (topicId) => {
+    if (window.confirm("Are you sure you want to delete this topic? All associated data will be lost.")) {
+      const updatedTopics = topics.filter(topic => topic.id !== topicId);
+      setTopics(updatedTopics);
+      // Reset filter if the deleted topic was selected
+      if (filteredTopic === topicId.toString()) {
+        setFilteredTopic('all');
+      }
+    }
   };
 
   // Log study time for a topic
@@ -216,37 +230,62 @@ export default function HabitTracker() {
             
             <h2 className="text-xl font-semibold mb-4">Your Topics</h2>
             
+            {/* Topic Filter Dropdown */}
+            {topics.length > 0 && (
+              <div className="mb-4">
+                <select
+                  value={filteredTopic}
+                  onChange={(e) => setFilteredTopic(e.target.value)}
+                  className="w-full max-w-xs p-2 border rounded mx-auto block"
+                >
+                  <option value="all">-- Show All Topics --</option>
+                  {topics.map(topic => (
+                    <option key={topic.id} value={topic.id.toString()}>{topic.name}</option>
+                  ))}
+                </select>
+              </div>
+            )}
+            
             {topics.length === 0 ? (
               <p className="text-gray-500">No topics added yet. Add a topic to get started!</p>
             ) : (
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                {topics.map(topic => (
-                  <div key={topic.id} className="bg-white p-4 rounded shadow">
-                    <h3 className="text-lg font-semibold mb-2">{topic.name}</h3>
-                    <div className="grid grid-cols-2 gap-2 text-sm mb-3">
-                      <div className="bg-gray-100 p-2 rounded">
-                        <p className="text-gray-500">Total Hours</p>
-                        <p className="font-bold">{getTotalHours(topic)}</p>
+                {topics
+                  .filter(topic => filteredTopic === 'all' || topic.id.toString() === filteredTopic)
+                  .map(topic => (
+                    <div key={topic.id} className="bg-white p-4 rounded shadow">
+                      {/* Delete Button */}
+                      <button 
+                        className="topic-delete-button" 
+                        onClick={() => handleDeleteTopic(topic.id)}
+                        aria-label="Delete topic"
+                      ></button>
+                      
+                      <h3 className="text-lg font-semibold mb-2">{topic.name}</h3>
+                      <div className="grid grid-cols-2 gap-2 text-sm mb-3">
+                        <div className="bg-gray-100 p-2 rounded">
+                          <p className="text-gray-500">Total Hours</p>
+                          <p className="font-bold">{getTotalHours(topic)}</p>
+                        </div>
+                        <div className="bg-gray-100 p-2 rounded">
+                          <p className="text-gray-500">Latest Grade</p>
+                          <p className="font-bold">{getLatestGrade(topic)}</p>
+                        </div>
+                        <div className="bg-gray-100 p-2 rounded">
+                          <p className="text-gray-500">Efficiency</p>
+                          <p className="font-bold">{getEfficiency(topic)}</p>
+                        </div>
+                        <div className="bg-gray-100 p-2 rounded">
+                          <p className="text-gray-500">Sessions</p>
+                          <p className="font-bold">{topic.timeEntries.length}</p>
+                        </div>
                       </div>
-                      <div className="bg-gray-100 p-2 rounded">
-                        <p className="text-gray-500">Latest Grade</p>
-                        <p className="font-bold">{getLatestGrade(topic)}</p>
-                      </div>
-                      <div className="bg-gray-100 p-2 rounded">
-                        <p className="text-gray-500">Efficiency</p>
-                        <p className="font-bold">{getEfficiency(topic)}</p>
-                      </div>
-                      <div className="bg-gray-100 p-2 rounded">
-                        <p className="text-gray-500">Sessions</p>
-                        <p className="font-bold">{topic.timeEntries.length}</p>
+                      <div className="bg-blue-50 p-2 rounded text-sm">
+                        <p className="text-gray-700 font-semibold">Recommendation:</p>
+                        <p>{getRecommendation(topic)}</p>
                       </div>
                     </div>
-                    <div className="bg-blue-50 p-2 rounded text-sm">
-                      <p className="text-gray-700 font-semibold">Recommendation:</p>
-                      <p>{getRecommendation(topic)}</p>
-                    </div>
-                  </div>
-                ))}
+                  ))}
               </div>
             )}
           </div>
