@@ -43,8 +43,12 @@ export default function HabitTracker() {
   };
 
   const handleDeleteTopic = (topicId) => {
-    if (window.confirm("Are you sure you want to delete this topic? All associated data will be lost.")) {
-      const updatedTopics = topics.filter(topic => topic.id !== topicId);
+    if (
+      window.confirm(
+        "Are you sure you want to delete this topic? All associated data will be lost."
+      )
+    ) {
+      const updatedTopics = topics.filter((topic) => topic.id !== topicId);
       setTopics(updatedTopics);
       if (filteredTopic === topicId.toString()) {
         setFilteredTopic('all');
@@ -55,7 +59,7 @@ export default function HabitTracker() {
   const handleLogTime = (e) => {
     e.preventDefault();
     if (!selectedTopic || !hoursSpent || !studyDate) return;
-    const updatedTopics = topics.map(topic => {
+    const updatedTopics = topics.map((topic) => {
       if (topic.id === parseInt(selectedTopic)) {
         return {
           ...topic,
@@ -65,9 +69,9 @@ export default function HabitTracker() {
               id: Date.now(),
               hours: parseFloat(hoursSpent),
               date: studyDate,
-              notes: studyNotes
-            }
-          ]
+              notes: studyNotes,
+            },
+          ],
         };
       }
       return topic;
@@ -80,7 +84,7 @@ export default function HabitTracker() {
   const handleAddGrade = (e) => {
     e.preventDefault();
     if (!selectedTopic || !gradeValue || !gradeDate) return;
-    const updatedTopics = topics.map(topic => {
+    const updatedTopics = topics.map((topic) => {
       if (topic.id === parseInt(selectedTopic)) {
         return {
           ...topic,
@@ -90,9 +94,9 @@ export default function HabitTracker() {
               id: Date.now(),
               value: parseFloat(gradeValue),
               date: gradeDate,
-              notes: gradeNotes
-            }
-          ]
+              notes: gradeNotes,
+            },
+          ],
         };
       }
       return topic;
@@ -115,8 +119,11 @@ export default function HabitTracker() {
   };
 
   const getEfficiency = (topic) => {
-    if (topic.grades.length === 0 || topic.timeEntries.length === 0) return 'N/A';
-    const avgGrade = topic.grades.reduce((sum, grade) => sum + grade.value, 0) / topic.grades.length;
+    if (topic.grades.length === 0 || topic.timeEntries.length === 0)
+      return 'N/A';
+    const avgGrade =
+      topic.grades.reduce((sum, grade) => sum + grade.value, 0) /
+      topic.grades.length;
     const totalHours = getTotalHours(topic);
     const efficiency = avgGrade / totalHours; // simple formula
     return efficiency.toFixed(2);
@@ -126,7 +133,9 @@ export default function HabitTracker() {
     if (topic.grades.length === 0 || topic.timeEntries.length === 0) {
       return "Log more data to get recommendations";
     }
-    const avgGrade = topic.grades.reduce((sum, grade) => sum + grade.value, 0) / topic.grades.length;
+    const avgGrade =
+      topic.grades.reduce((sum, grade) => sum + grade.value, 0) /
+      topic.grades.length;
     const efficiency = parseFloat(getEfficiency(topic));
     if (avgGrade < 70) {
       return "Consider increasing study time for this topic";
@@ -145,26 +154,38 @@ export default function HabitTracker() {
         <p className="text-sm">Track your study hours and performance</p>
       </header>
 
-      {/* Navigation: add 'nav-container' to apply the new CSS class */}
+      {/* Navigation */}
       <nav className="bg-white shadow p-2 nav-container">
         <div className="flex justify-around">
-          <button 
+          <button
             onClick={() => setActiveView('dashboard')}
-            className={`flex items-center p-2 ${activeView === 'dashboard' ? 'text-blue-600 font-bold' : 'text-gray-600'}`}
+            className={`flex items-center p-2 ${
+              activeView === 'dashboard'
+                ? 'text-blue-600 font-bold'
+                : 'text-gray-600'
+            }`}
           >
             <BarChart className="w-5 h-5 mr-1" />
             Dashboard
           </button>
-          <button 
+          <button
             onClick={() => setActiveView('logTime')}
-            className={`flex items-center p-2 ${activeView === 'logTime' ? 'text-blue-600 font-bold' : 'text-gray-600'}`}
+            className={`flex items-center p-2 ${
+              activeView === 'logTime'
+                ? 'text-blue-600 font-bold'
+                : 'text-gray-600'
+            }`}
           >
             <Clock className="w-5 h-5 mr-1" />
             Log Time
           </button>
-          <button 
+          <button
             onClick={() => setActiveView('logGrade')}
-            className={`flex items-center p-2 ${activeView === 'logGrade' ? 'text-blue-600 font-bold' : 'text-gray-600'}`}
+            className={`flex items-center p-2 ${
+              activeView === 'logGrade'
+                ? 'text-blue-600 font-bold'
+                : 'text-gray-600'
+            }`}
           >
             <BookOpen className="w-5 h-5 mr-1" />
             Log Grade
@@ -187,17 +208,20 @@ export default function HabitTracker() {
                   onChange={(e) => setNewTopic(e.target.value)}
                   className="flex-1 p-2 border rounded mr-2"
                 />
-                <button type="submit" className="bg-blue-600 text-white p-2 rounded flex items-center">
+                <button
+                  type="submit"
+                  className="bg-blue-600 text-white p-2 rounded flex items-center"
+                >
                   <PlusCircle className="w-5 h-5 mr-1" />
                   Add
                 </button>
               </form>
             </div>
 
-            {/* Use a custom class for this heading */}
-            <h2 className="text-xl font-semibold mb-4 your-topics-heading">Your Topics</h2>
+            <h2 className="text-xl font-semibold mb-4 your-topics-heading">
+              Your Topics
+            </h2>
 
-            {/* Topic Filter Dropdown */}
             {topics.length > 0 && (
               <div className="mb-4">
                 <select
@@ -206,29 +230,40 @@ export default function HabitTracker() {
                   className="w-full max-w-xs p-2 border rounded mx-auto block"
                 >
                   <option value="all">-- Show All Topics --</option>
-                  {topics.map(topic => (
-                    <option key={topic.id} value={topic.id.toString()}>{topic.name}</option>
+                  {topics.map((topic) => (
+                    <option key={topic.id} value={topic.id.toString()}>
+                      {topic.name}
+                    </option>
                   ))}
                 </select>
               </div>
             )}
 
             {topics.length === 0 ? (
-              <p className="text-gray-500">No topics added yet. Add a topic to get started!</p>
+              <p className="text-gray-500">
+                No topics added yet. Add a topic to get started!
+              </p>
             ) : (
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 {topics
-                  .filter(topic => filteredTopic === 'all' || topic.id.toString() === filteredTopic)
-                  .map(topic => (
-                    // Add 'topic-card' class for each topic card
-                    <div key={topic.id} className="topic-card bg-white p-4 rounded shadow">
+                  .filter(
+                    (topic) =>
+                      filteredTopic === 'all' ||
+                      topic.id.toString() === filteredTopic
+                  )
+                  .map((topic) => (
+                    <div
+                      key={topic.id}
+                      className="topic-card bg-white p-4 rounded shadow"
+                    >
                       <button
                         className="topic-delete-button"
                         onClick={() => handleDeleteTopic(topic.id)}
                         aria-label="Delete topic"
                       ></button>
-                      
-                      <h3 className="text-lg font-semibold mb-2">{topic.name}</h3>
+                      <h3 className="text-lg font-semibold mb-2">
+                        {topic.name}
+                      </h3>
                       <div className="grid grid-cols-2 gap-2 text-sm mb-3">
                         <div className="bg-gray-100 p-2 rounded">
                           <p className="text-gray-500">Total Hours</p>
@@ -244,11 +279,15 @@ export default function HabitTracker() {
                         </div>
                         <div className="bg-gray-100 p-2 rounded">
                           <p className="text-gray-500">Sessions</p>
-                          <p className="font-bold">{topic.timeEntries.length}</p>
+                          <p className="font-bold">
+                            {topic.timeEntries.length}
+                          </p>
                         </div>
                       </div>
                       <div className="bg-blue-50 p-2 rounded text-sm">
-                        <p className="text-gray-700 font-semibold">Recommendation:</p>
+                        <p className="text-gray-700 font-semibold">
+                          Recommendation:
+                        </p>
                         <p>{getRecommendation(topic)}</p>
                       </div>
                     </div>
@@ -263,11 +302,18 @@ export default function HabitTracker() {
           <div className="mt-8">
             <h2 className="text-xl font-semibold mb-6">Log Study Time</h2>
             {topics.length === 0 ? (
-              <p className="text-gray-500">Add a topic first before logging time.</p>
+              <p className="text-gray-500">
+                Add a topic first before logging time.
+              </p>
             ) : (
-              <form onSubmit={handleLogTime} className="bg-white p-6 rounded shadow">
+              <form
+                onSubmit={handleLogTime}
+                className="bg-white p-6 rounded shadow"
+              >
                 <div className="mb-4">
-                  <label className="block text-gray-700 mb-2">Select Topic</label>
+                  <label className="block text-gray-700 mb-2">
+                    Select Topic
+                  </label>
                   <select
                     value={selectedTopic}
                     onChange={(e) => setSelectedTopic(e.target.value)}
@@ -275,14 +321,18 @@ export default function HabitTracker() {
                     required
                   >
                     <option value="">-- Select a topic --</option>
-                    {topics.map(topic => (
-                      <option key={topic.id} value={topic.id}>{topic.name}</option>
+                    {topics.map((topic) => (
+                      <option key={topic.id} value={topic.id}>
+                        {topic.name}
+                      </option>
                     ))}
                   </select>
                 </div>
-                
+
                 <div className="mb-4">
-                  <label className="block text-gray-700 mb-2">Hours Spent</label>
+                  <label className="block text-gray-700 mb-2">
+                    Hours Spent
+                  </label>
                   <input
                     type="number"
                     step="0.25"
@@ -294,7 +344,7 @@ export default function HabitTracker() {
                     required
                   />
                 </div>
-                
+
                 <div className="mb-4">
                   <label className="block text-gray-700 mb-2">Date</label>
                   <input
@@ -305,9 +355,11 @@ export default function HabitTracker() {
                     required
                   />
                 </div>
-                
+
                 <div className="mb-4">
-                  <label className="block text-gray-700 mb-2">Notes (Optional)</label>
+                  <label className="block text-gray-700 mb-2">
+                    Notes (Optional)
+                  </label>
                   <textarea
                     value={studyNotes}
                     onChange={(e) => setStudyNotes(e.target.value)}
@@ -316,8 +368,11 @@ export default function HabitTracker() {
                     rows="3"
                   />
                 </div>
-                
-                <button type="submit" className="bg-blue-600 text-white p-2 rounded flex items-center justify-center w-full">
+
+                <button
+                  type="submit"
+                  className="bg-blue-600 text-white p-2 rounded flex items-center justify-center w-full"
+                >
                   <Save className="w-5 h-5 mr-1" />
                   Save Time Entry
                 </button>
@@ -331,11 +386,15 @@ export default function HabitTracker() {
           <div>
             <h2 className="text-xl font-semibold mb-4">Log Grade/Assessment</h2>
             {topics.length === 0 ? (
-              <p className="text-gray-500">Add a topic first before logging grades.</p>
+              <p className="text-gray-500">
+                Add a topic first before logging grades.
+              </p>
             ) : (
               <form onSubmit={handleAddGrade} className="bg-white p-4 rounded shadow">
                 <div className="mb-4">
-                  <label className="block text-gray-700 mb-2">Select Topic</label>
+                  <label className="block text-gray-700 mb-2">
+                    Select Topic
+                  </label>
                   <select
                     value={selectedTopic}
                     onChange={(e) => setSelectedTopic(e.target.value)}
@@ -343,14 +402,18 @@ export default function HabitTracker() {
                     required
                   >
                     <option value="">-- Select a topic --</option>
-                    {topics.map(topic => (
-                      <option key={topic.id} value={topic.id}>{topic.name}</option>
+                    {topics.map((topic) => (
+                      <option key={topic.id} value={topic.id}>
+                        {topic.name}
+                      </option>
                     ))}
                   </select>
                 </div>
-                
+
                 <div className="mb-4">
-                  <label className="block text-gray-700 mb-2">Grade/Score (0-100)</label>
+                  <label className="block text-gray-700 mb-2">
+                    Grade/Score (0-100)
+                  </label>
                   <input
                     type="number"
                     min="0"
@@ -362,7 +425,7 @@ export default function HabitTracker() {
                     required
                   />
                 </div>
-                
+
                 <div className="mb-4">
                   <label className="block text-gray-700 mb-2">Date</label>
                   <input
@@ -373,9 +436,11 @@ export default function HabitTracker() {
                     required
                   />
                 </div>
-                
+
                 <div className="mb-4">
-                  <label className="block text-gray-700 mb-2">Notes (Optional)</label>
+                  <label className="block text-gray-700 mb-2">
+                    Notes (Optional)
+                  </label>
                   <textarea
                     value={gradeNotes}
                     onChange={(e) => setGradeNotes(e.target.value)}
@@ -384,8 +449,11 @@ export default function HabitTracker() {
                     rows="3"
                   />
                 </div>
-                
-                <button type="submit" className="bg-blue-600 text-white p-2 rounded flex items-center justify-center w-full">
+
+                <button
+                  type="submit"
+                  className="bg-blue-600 text-white p-2 rounded flex items-center justify-center w-full"
+                >
                   <Save className="w-5 h-5 mr-1" />
                   Save Grade
                 </button>
@@ -394,7 +462,7 @@ export default function HabitTracker() {
           </div>
         )}
       </main>
-      
+
       {/* Footer */}
       <footer className="bg-gray-100 p-4 text-center text-gray-500 text-sm">
         Habit Tracker App © 2025
