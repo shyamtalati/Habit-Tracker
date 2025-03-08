@@ -34,7 +34,7 @@ body {
   flex-direction: column;
 }
 
-/* Header - only top-level header gets styling */
+/* Header */
 h1:first-of-type, .app-title {
   font-size: 24px;
   padding: 20px 20px 10px 20px;
@@ -63,14 +63,8 @@ button {
   margin: 5px;
 }
 
-/* Force navigation container to be horizontal and centered */
-#root > div > div button, 
-#root button[id^="dashboard"], 
-#root button[id^="log"] {
-  display: inline-block;
-}
-
-div:has(button) {
+/* Force navigation container to be horizontal and centered (replacing div:has(button)) */
+.nav-container {
   display: flex;
   justify-content: center;
   flex-wrap: wrap;
@@ -79,16 +73,16 @@ div:has(button) {
   border-bottom: 1px solid #d0e1f9 !important;
 }
 
-/* Form section */
-div:has(input) {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  padding: 20px;
-  margin: 10px auto;
-  max-width: 600px;
+/* Force navigation buttons to be inline */
+#root > div > div button,
+#root button[id^="dashboard"],
+#root button[id^="log"] {
+  display: inline-block;
 }
 
+/* Form section (removed div:has(input), rely on Tailwind or a custom class if you need a wrapper) */
+
+/* Input styling */
 input[type="text"] {
   padding: 10px !important;
   border: 1px solid #ccc !important;
@@ -107,25 +101,6 @@ h2, h3 {
   margin: 15px 0;
   color: #2c4c7c;
   text-align: center;
-}
-
-/* Topic card */
-div:has(> h3) {
-  background-color: #f9fbff !important;
-  border-radius: 8px !important;
-  padding: 15px !important;
-  margin: 15px auto !important;
-  max-width: 600px;
-  border-left: 4px solid #4a90e2 !important;
-}
-
-/* Footer */
-#root > div > div:last-child {
-  margin-top: auto;
-  padding: 15px;
-  text-align: center;
-  background-color: #4a90e2 !important;
-  color: white;
 }
 
 /* Topic card delete button */
@@ -153,9 +128,8 @@ div:has(> h3) {
   background-color: #c0392b !important;
 }
 
-/* Make the topic card position relative to contain the absolute positioned button */
-.topic-card,
-div:has(> h3) {
+/* Topic card (replaces div:has(> h3)) */
+.topic-card {
   position: relative !important;
   background-color: #f9fbff !important;
   border-radius: 8px !important;
@@ -173,7 +147,7 @@ div:has(> h3) {
   font-weight: bold;
 }
 
-/* Add confirmation modal styling if needed */
+/* Confirmation modal */
 .confirm-delete-modal {
   position: fixed;
   top: 0;
@@ -214,59 +188,30 @@ h2.text-xl, h2.section-title {
 
 /* Add more space between "Add New Topic" and the input field */
 form.flex.items-center {
-  margin-top: 30px !important;
+  margin-top: 15px !important;
 }
 
 /* Better spacing between form elements */
 .mb-4 {
-  margin-bottom: 25px !important; /* Increase default spacing between form groups */
+  margin-bottom: 25px !important; /* Increase default spacing */
 }
 
 /* Add more space between nav icons */
-.nav-buttons button, 
+.nav-buttons button,
 div.flex.justify-around button,
-button[id^="dashboard"], 
+button[id^="dashboard"],
 button[id^="log"] {
   margin: 0 15px !important; /* More horizontal spacing between buttons */
 }
 
-/* Add more space above "Your Topics" section */
-h2:contains("Your Topics") {
+/* Use a custom class for the "Your Topics" heading instead of h2:contains("Your Topics") */
+.your-topics-heading {
   margin-top: 30px !important;
 }
 
-/* Add more space above form labels */
-label.block {
-  margin-bottom: 10px !important;
-}
-
-/* Add more space above input fields */
-input[type="text"], 
-input[type="number"], 
-input[type="date"],
-select, 
-textarea {
-  margin-top: 5px !important;
-}
-
-/* Better spacing for dropdown filter above topic cards */
-div:has(select) {
-  margin-bottom: 20px !important;
-}
-
-/* Increase spacing for content sections */
-.flex-1.p-4 > div {
-  padding: 20px !important;
-}
-
-/* Add more vertical space between "Add New Topic" and "Your Topics" sections */
-div.mb-6 {
-  margin-bottom: 40px !important; /* Increase from default 1.5rem (24px) to 40px */
-}
-
-/* Alternatively, add space above "Your Topics" */
+/* This was for the second h2 on the page; it's valid but optional */
 h2:nth-of-type(2) {
   margin-top: 40px !important;
   padding-top: 20px !important;
-  border-top: 1px solid #eee !important; /* Optional: adds a subtle divider */
+  border-top: 1px solid #eee !important;
 }

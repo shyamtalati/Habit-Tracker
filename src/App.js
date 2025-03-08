@@ -2,77 +2,59 @@ import React, { useState, useEffect } from 'react';
 import { PlusCircle, Clock, BookOpen, BarChart, Save } from 'lucide-react';
 import './App.css';
 
-// Main App Component
 export default function HabitTracker() {
-  // State for topics/subjects
   const [topics, setTopics] = useState([]);
-  // State for the active view
   const [activeView, setActiveView] = useState('dashboard');
-  // State for new topic form
   const [newTopic, setNewTopic] = useState('');
-  // States for logging time
   const [selectedTopic, setSelectedTopic] = useState('');
   const [hoursSpent, setHoursSpent] = useState('');
   const [studyDate, setStudyDate] = useState('');
   const [studyNotes, setStudyNotes] = useState('');
-  // States for logging grades
   const [gradeValue, setGradeValue] = useState('');
   const [gradeDate, setGradeDate] = useState('');
   const [gradeNotes, setGradeNotes] = useState('');
-  // State for filtering topics
   const [filteredTopic, setFilteredTopic] = useState('all');
 
-  // Load data from localStorage on component mount
   useEffect(() => {
     const savedTopics = localStorage.getItem('habitTrackerTopics');
     if (savedTopics) {
       setTopics(JSON.parse(savedTopics));
     }
-    
-    // Set today's date as default for forms
     const today = new Date().toISOString().split('T')[0];
     setStudyDate(today);
     setGradeDate(today);
   }, []);
 
-  // Save topics to localStorage whenever they change
   useEffect(() => {
     localStorage.setItem('habitTrackerTopics', JSON.stringify(topics));
   }, [topics]);
 
-  // Add a new topic
   const handleAddTopic = (e) => {
     e.preventDefault();
     if (!newTopic.trim()) return;
-    
     const newTopicObj = {
       id: Date.now(),
       name: newTopic,
       timeEntries: [],
       grades: [],
     };
-    
     setTopics([...topics, newTopicObj]);
     setNewTopic('');
   };
 
-  // Delete a topic
   const handleDeleteTopic = (topicId) => {
     if (window.confirm("Are you sure you want to delete this topic? All associated data will be lost.")) {
       const updatedTopics = topics.filter(topic => topic.id !== topicId);
       setTopics(updatedTopics);
-      // Reset filter if the deleted topic was selected
       if (filteredTopic === topicId.toString()) {
         setFilteredTopic('all');
       }
     }
   };
 
-  // Log study time for a topic
   const handleLogTime = (e) => {
     e.preventDefault();
     if (!selectedTopic || !hoursSpent || !studyDate) return;
-    
     const updatedTopics = topics.map(topic => {
       if (topic.id === parseInt(selectedTopic)) {
         return {
@@ -90,17 +72,14 @@ export default function HabitTracker() {
       }
       return topic;
     });
-    
     setTopics(updatedTopics);
     setHoursSpent('');
     setStudyNotes('');
   };
 
-  // Add a grade for a topic
   const handleAddGrade = (e) => {
     e.preventDefault();
     if (!selectedTopic || !gradeValue || !gradeDate) return;
-    
     const updatedTopics = topics.map(topic => {
       if (topic.id === parseInt(selectedTopic)) {
         return {
@@ -118,50 +97,37 @@ export default function HabitTracker() {
       }
       return topic;
     });
-    
     setTopics(updatedTopics);
     setGradeValue('');
     setGradeNotes('');
   };
 
-  // Calculate total hours for a topic
   const getTotalHours = (topic) => {
     return topic.timeEntries.reduce((total, entry) => total + entry.hours, 0);
   };
 
-  // Get latest grade for a topic
   const getLatestGrade = (topic) => {
     if (topic.grades.length === 0) return 'N/A';
-    
     const latestGrade = topic.grades.reduce((latest, grade) => {
       return new Date(grade.date) > new Date(latest.date) ? grade : latest;
     }, topic.grades[0]);
-    
     return latestGrade.value;
   };
 
-  // Calculate study efficiency (simple algorithm)
   const getEfficiency = (topic) => {
     if (topic.grades.length === 0 || topic.timeEntries.length === 0) return 'N/A';
-    
     const avgGrade = topic.grades.reduce((sum, grade) => sum + grade.value, 0) / topic.grades.length;
     const totalHours = getTotalHours(topic);
-    
-    // Simple formula: grade per hour (higher is better)
-    const efficiency = avgGrade / totalHours;
-    
+    const efficiency = avgGrade / totalHours; // simple formula
     return efficiency.toFixed(2);
   };
 
-  // Generate recommendations based on data
   const getRecommendation = (topic) => {
     if (topic.grades.length === 0 || topic.timeEntries.length === 0) {
       return "Log more data to get recommendations";
     }
-    
     const avgGrade = topic.grades.reduce((sum, grade) => sum + grade.value, 0) / topic.grades.length;
     const efficiency = parseFloat(getEfficiency(topic));
-    
     if (avgGrade < 70) {
       return "Consider increasing study time for this topic";
     } else if (efficiency < 5) {
@@ -178,9 +144,9 @@ export default function HabitTracker() {
         <h1 className="text-2xl font-bold">Habit Tracker</h1>
         <p className="text-sm">Track your study hours and performance</p>
       </header>
-      
-      {/* Navigation */}
-      <nav className="bg-white shadow p-2">
+
+      {/* Navigation: add 'nav-container' to apply the new CSS class */}
+      <nav className="bg-white shadow p-2 nav-container">
         <div className="flex justify-around">
           <button 
             onClick={() => setActiveView('dashboard')}
@@ -205,7 +171,7 @@ export default function HabitTracker() {
           </button>
         </div>
       </nav>
-      
+
       {/* Main Content */}
       <main className="flex-1 p-4 overflow-y-auto">
         {/* Dashboard View */}
@@ -227,9 +193,10 @@ export default function HabitTracker() {
                 </button>
               </form>
             </div>
-            
-            <h2 className="text-xl font-semibold mb-4">Your Topics</h2>
-            
+
+            {/* Use a custom class for this heading */}
+            <h2 className="text-xl font-semibold mb-4 your-topics-heading">Your Topics</h2>
+
             {/* Topic Filter Dropdown */}
             {topics.length > 0 && (
               <div className="mb-4">
@@ -245,7 +212,7 @@ export default function HabitTracker() {
                 </select>
               </div>
             )}
-            
+
             {topics.length === 0 ? (
               <p className="text-gray-500">No topics added yet. Add a topic to get started!</p>
             ) : (
@@ -253,10 +220,10 @@ export default function HabitTracker() {
                 {topics
                   .filter(topic => filteredTopic === 'all' || topic.id.toString() === filteredTopic)
                   .map(topic => (
-                    <div key={topic.id} className="bg-white p-4 rounded shadow">
-                      {/* Delete Button */}
-                      <button 
-                        className="topic-delete-button" 
+                    // Add 'topic-card' class for each topic card
+                    <div key={topic.id} className="topic-card bg-white p-4 rounded shadow">
+                      <button
+                        className="topic-delete-button"
                         onClick={() => handleDeleteTopic(topic.id)}
                         aria-label="Delete topic"
                       ></button>
@@ -290,12 +257,11 @@ export default function HabitTracker() {
             )}
           </div>
         )}
-        
+
         {/* Log Time View */}
         {activeView === 'logTime' && (
           <div>
             <h2 className="text-xl font-semibold mb-4">Log Study Time</h2>
-            
             {topics.length === 0 ? (
               <p className="text-gray-500">Add a topic first before logging time.</p>
             ) : (
@@ -359,12 +325,11 @@ export default function HabitTracker() {
             )}
           </div>
         )}
-        
+
         {/* Log Grade View */}
         {activeView === 'logGrade' && (
           <div>
             <h2 className="text-xl font-semibold mb-4">Log Grade/Assessment</h2>
-            
             {topics.length === 0 ? (
               <p className="text-gray-500">Add a topic first before logging grades.</p>
             ) : (
