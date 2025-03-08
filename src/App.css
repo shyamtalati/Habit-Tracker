@@ -1,193 +1,108 @@
-/* Reset and basic styling */
+/* Reset everything first */
 * {
   box-sizing: border-box;
   margin: 0;
   padding: 0;
+  border: none !important;
+  box-shadow: none !important;
 }
 
-/* Base body styling */
+/* Simple body background */
 body {
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
   background-color: #e8f4fc;
   color: #333;
   line-height: 1.6;
-  padding: 20px;
+  display: flex;
+  justify-content: center;
 }
 
-/* Main container styling */
+/* Root container */
 #root {
-  max-width: 900px;
-  margin: 0 auto;
-}
-
-/* Main app container */
-.app-container, #root > div {
-  background-color: white;
-  border-radius: 8px;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-  overflow: hidden;
-  margin-bottom: 20px;
-}
-
-/* Header styles */
-.app-header, h1 {
-  background: linear-gradient(135deg, #4a90e2, #3b82f6);
-  color: white;
+  width: 100%;
+  max-width: 800px;
   padding: 20px;
-  text-align: center;
-  margin-bottom: 15px;
 }
 
-.app-subtitle, h1 + p {
+/* Remove all borders, margins, and padding from divs */
+div {
+  border: none !important;
+  box-shadow: none !important;
+  background: transparent;
+}
+
+/* Main content container */
+#root > div {
+  background-color: white;
+  padding: 20px;
+  border-radius: 8px;
+  width: 100%;
+}
+
+/* Header styling */
+h1 {
+  font-size: 24px;
+  margin-bottom: 5px;
+  text-align: center;
+  color: #2c4c7c;
+}
+
+p {
   text-align: center;
   margin-bottom: 20px;
 }
 
 /* Navigation buttons */
-.nav-buttons, div:has(button:first-child) {
-  display: flex;
-  justify-content: center;
-  gap: 15px;
-  margin: 15px auto;
-  padding: 10px;
-}
-
-.nav-button, button {
-  display: flex;
-  align-items: center;
+button {
   padding: 8px 16px;
-  background-color: #f0f7ff;
-  color: #4a5568;
-  border: 1px solid #ddd;
+  margin: 0 5px;
+  background-color: #4a90e2;
+  color: white;
   border-radius: 4px;
   cursor: pointer;
-  font-size: 14px;
-  transition: all 0.2s;
 }
 
-.nav-button:hover, button:hover {
-  background-color: #e0f0ff;
-  transform: translateY(-1px);
-}
-
-.nav-button.active, button:active {
-  color: #3b82f6;
-  font-weight: bold;
-}
-
-/* Section titles */
-.section-title, h2 {
-  font-size: 20px;
-  font-weight: 600;
-  margin: 20px 0 15px;
-  color: #2c4c7c;
-  text-align: center;
-}
-
-/* Add topic form */
-form, div:has(input) {
+/* Center the navigation buttons */
+div:has(button) {
   display: flex;
   justify-content: center;
-  max-width: 600px;
-  margin: 0 auto 20px;
-  padding: 0 20px;
+  margin: 20px 0;
+  width: 100%;
 }
 
+/* Form elements */
 input[type="text"] {
-  flex: 1;
-  padding: 10px;
-  border: 1px solid #ddd;
+  padding: 8px;
+  border: 1px solid #ccc !important;
   border-radius: 4px;
+  width: 70%;
   margin-right: 10px;
 }
 
-input[type="text"]:focus {
-  outline: none;
-  border-color: #4a90e2;
-  box-shadow: 0 0 0 3px rgba(74, 144, 226, 0.1);
+form, div:has(input) {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 20px 0;
 }
 
-button[type="submit"], button:last-child {
-  padding: 10px 15px;
-  background-color: #4a90e2;
-  color: white;
-  border: none;
-  border-radius: 4px;
-  cursor: pointer;
-}
-
-/* Topic cards */
-.topic-card, div:has(h3) {
-  background-color: white;
-  border-radius: 8px;
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
-  margin: 15px auto;
-  max-width: 600px;
-  padding: 20px;
-  border-left: 4px solid #4a90e2;
+/* Section headings */
+h2, h3 {
   text-align: center;
-}
-
-.topic-name, h3 {
-  font-size: 18px;
-  font-weight: 600;
-  margin-bottom: 15px;
+  margin: 20px 0 10px;
   color: #2c4c7c;
 }
 
-/* Stats */
-.stats-grid {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 10px;
-  margin-bottom: 15px;
-}
-
-.stat-item {
-  background-color: #f0f7ff;
-  padding: 10px;
-  border-radius: 4px;
-}
-
-.stat-label {
-  color: #4a5568;
-  font-size: 14px;
-}
-
-.stat-value {
-  font-weight: bold;
-  color: #2c4c7c;
-  font-size: 16px;
-}
-
-/* Recommendation box */
-.recommendation, div:has(p:contains("Recommendation")) {
-  background-color: #e6f0ff;
-  padding: 12px;
-  border-radius: 4px;
-  margin-top: 15px;
-  font-size: 14px;
-  border-left: 3px solid #4a90e2;
+/* Topic information */
+.topic-info, div:has(h3) {
+  text-align: center;
+  margin: 15px 0;
 }
 
 /* Footer */
-.app-footer, div:last-child:has(span:contains("2025")) {
-  background-color: #f5f7fa;
+div:last-child {
   text-align: center;
-  padding: 15px;
+  margin-top: 30px;
+  font-size: 0.9em;
   color: #666;
-  font-size: 14px;
-  margin-top: 20px;
-  border-top: 1px solid #eee;
-}
-
-/* Responsive adjustments */
-@media (max-width: 600px) {
-  .stats-grid {
-    grid-template-columns: 1fr;
-  }
-  
-  input[type="text"] {
-    width: 100%;
-  }
 }
