@@ -260,12 +260,12 @@ export default function HabitTracker() {
 
         {/* Log Time View */}
         {activeView === 'logTime' && (
-          <div>
-            <h2 className="text-xl font-semibold mb-4">Log Study Time</h2>
+          <div className="mt-8">
+            <h2 className="text-xl font-semibold mb-6">Log Study Time</h2>
             {topics.length === 0 ? (
               <p className="text-gray-500">Add a topic first before logging time.</p>
             ) : (
-              <form onSubmit={handleLogTime} className="bg-white p-4 rounded shadow">
+              <form onSubmit={handleLogTime} className="bg-white p-6 rounded shadow">
                 <div className="mb-4">
                   <label className="block text-gray-700 mb-2">Select Topic</label>
                   <select
