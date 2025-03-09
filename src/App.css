@@ -35,7 +35,8 @@ body {
 }
 
 /* Header */
-h1:first-of-type, .app-title {
+h1:first-of-type,
+.app-title {
   font-size: 24px;
   padding: 20px 20px 10px 20px;
   text-align: center;
@@ -45,7 +46,8 @@ h1:first-of-type, .app-title {
 }
 
 /* Subtitle under header */
-h1 + p, .app-subtitle {
+h1 + p,
+.app-subtitle {
   padding: 0 20px 20px 20px;
   text-align: center;
   color: white;
@@ -63,7 +65,7 @@ button {
   margin: 5px;
 }
 
-/* Force navigation container to be horizontal and centered (replacing div:has(button)) */
+/* Force navigation container to be horizontal and centered */
 .nav-container {
   display: flex;
   justify-content: center;
@@ -80,24 +82,14 @@ button {
   display: inline-block;
 }
 
-/* Form section (removed div:has(input), rely on Tailwind or a custom class if you need a wrapper) */
-
-/* Input styling */
-input[type="text"] {
-  padding: 10px !important;
-  border: 1px solid #ccc !important;
-  border-radius: 4px !important;
-  flex: 1;
-  margin-right: 10px;
-}
-
 /* Main content area - must have padding */
 #root > div > div {
   padding: 10px;
 }
 
 /* Section titles */
-h2, h3 {
+h2,
+h3 {
   margin: 15px 0;
   color: #2c4c7c;
   text-align: center;
@@ -128,7 +120,7 @@ h2, h3 {
   background-color: #c0392b !important;
 }
 
-/* Topic card (replaces div:has(> h3)) */
+/* Topic card container */
 .topic-card {
   position: relative !important;
   background-color: #f9fbff !important;
@@ -154,7 +146,7 @@ h2, h3 {
   left: 0;
   right: 0;
   bottom: 0;
-  background-color: rgba(0,0,0,0.5) !important;
+  background-color: rgba(0, 0, 0, 0.5) !important;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -182,7 +174,8 @@ h2, h3 {
 }
 
 /* Better spacing for section headings and content */
-h2.text-xl, h2.section-title {
+h2.text-xl,
+h2.section-title {
   margin-bottom: 20px !important; /* More space below headings */
 }
 
@@ -196,27 +189,12 @@ form.flex.items-center {
   margin-bottom: 25px !important; /* Increase default spacing */
 }
 
-/* Add more space between nav icons */
-.nav-buttons button,
-div.flex.justify-around button,
-button[id^="dashboard"],
-button[id^="log"] {
-  margin: 0 15px !important; /* More horizontal spacing between buttons */
-}
-
-/* Use a custom class for the "Your Topics" heading instead of h2:contains("Your Topics") */
+/* Use a custom class for the "Your Topics" heading */
 .your-topics-heading {
   margin-top: 30px !important;
 }
 
-/* This was for the second h2 on the page; it's valid but optional */
-h2:nth-of-type(2) {
-  margin-top: 40px !important;
-  padding-top: 20px !important;
-  border-top: 1px solid #eee !important;
-}
-
-/* Fade In + slight slide up animation */
+/* Fade In + slight slide up animation (for the Dashboard container) */
 @keyframes fadeInUp {
   0% {
     opacity: 0;
@@ -227,8 +205,21 @@ h2:nth-of-type(2) {
     transform: translateY(0);
   }
 }
-
-/* Apply the animation */
 .fade-in {
   animation: fadeInUp 0.7s ease-out forwards;
+}
+
+/* Highlight a newly added topic (pop-in) */
+@keyframes highlightNew {
+  0% {
+    opacity: 0;
+    transform: scale(0.95);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+.highlight-new {
+  animation: highlightNew 0.5s ease-out forwards;
 }

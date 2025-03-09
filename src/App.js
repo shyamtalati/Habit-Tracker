@@ -15,7 +15,10 @@ export default function HabitTracker() {
   const [gradeNotes, setGradeNotes] = useState('');
   const [filteredTopic, setFilteredTopic] = useState('all');
 
-  // Load data and set today's date on mount
+  // We'll store the ID of a newly added topic to highlight it
+  const [justAddedTopic, setJustAddedTopic] = useState(null);
+
+  // Load topics from localStorage and set today's date on mount
   useEffect(() => {
     const savedTopics = localStorage.getItem('habitTrackerTopics');
     if (savedTopics) {
@@ -26,24 +29,41 @@ export default function HabitTracker() {
     setGradeDate(today);
   }, []);
 
-  // Save to localStorage whenever topics change
+  // Save topics to localStorage whenever they change
   useEffect(() => {
     localStorage.setItem('habitTrackerTopics', JSON.stringify(topics));
   }, [topics]);
 
+  // Clear the highlight after 1 second so it only animates once
+  useEffect(() => {
+    if (justAddedTopic) {
+      const timer = setTimeout(() => {
+        setJustAddedTopic(null);
+      }, 1000); // Adjust timing as desired
+      return () => clearTimeout(timer);
+    }
+  }, [justAddedTopic]);
+
+  // Add a new topic
   const handleAddTopic = (e) => {
     e.preventDefault();
     if (!newTopic.trim()) return;
+
     const newTopicObj = {
       id: Date.now(),
       name: newTopic,
       timeEntries: [],
       grades: [],
     };
+
     setTopics([...topics, newTopicObj]);
     setNewTopic('');
+
+    // Set this topic's ID to highlight it
+    setJustAddedTopic(newTopicObj.id);
   };
 
+  // Delete a topic
   const handleDeleteTopic = (topicId) => {
     if (
       window.confirm(
@@ -52,12 +72,14 @@ export default function HabitTracker() {
     ) {
       const updatedTopics = topics.filter((topic) => topic.id !== topicId);
       setTopics(updatedTopics);
+      // Reset filter if the deleted topic was selected
       if (filteredTopic === topicId.toString()) {
         setFilteredTopic('all');
       }
     }
   };
 
+  // Log study time for a topic
   const handleLogTime = (e) => {
     e.preventDefault();
     if (!selectedTopic || !hoursSpent || !studyDate) return;
@@ -83,6 +105,7 @@ export default function HabitTracker() {
     setStudyNotes('');
   };
 
+  // Log a grade for a topic
   const handleAddGrade = (e) => {
     e.preventDefault();
     if (!selectedTopic || !gradeValue || !gradeDate) return;
@@ -113,7 +136,7 @@ export default function HabitTracker() {
     return topic.timeEntries.reduce((total, entry) => total + entry.hours, 0);
   };
 
-  // Get latest grade for a topic
+  // Get the latest grade for a topic
   const getLatestGrade = (topic) => {
     if (topic.grades.length === 0) return 'N/A';
     const latestGrade = topic.grades.reduce((latest, grade) => {
@@ -122,7 +145,7 @@ export default function HabitTracker() {
     return latestGrade.value;
   };
 
-  // Simple efficiency formula
+  // Simple efficiency calculation: average grade / total hours
   const getEfficiency = (topic) => {
     if (topic.grades.length === 0 || topic.timeEntries.length === 0)
       return 'N/A';
@@ -134,7 +157,7 @@ export default function HabitTracker() {
     return efficiency.toFixed(2);
   };
 
-  // Generate recommendation
+  // Generate recommendations
   const getRecommendation = (topic) => {
     if (topic.grades.length === 0 || topic.timeEntries.length === 0) {
       return 'Log more data to get recommendations';
@@ -203,7 +226,7 @@ export default function HabitTracker() {
       <main className="flex-1 p-4 overflow-y-auto">
         {/* Dashboard View */}
         {activeView === 'dashboard' && (
-          /* Apply our fade-in animation to the Dashboard container */
+          // Apply our fade-in animation to the Dashboard container
           <div className="fade-in">
             <div className="mb-6">
               <h2 className="text-xl font-semibold mb-4">Add New Topic</h2>
@@ -261,7 +284,9 @@ export default function HabitTracker() {
                   .map((topic) => (
                     <div
                       key={topic.id}
-                      className="topic-card bg-white p-4 rounded shadow"
+                      className={`topic-card bg-white p-4 rounded shadow ${
+                        topic.id === justAddedTopic ? 'highlight-new' : ''
+                      }`}
                     >
                       <button
                         className="topic-delete-button"
