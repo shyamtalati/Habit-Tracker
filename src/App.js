@@ -15,41 +15,18 @@ export default function HabitTracker() {
   const [gradeNotes, setGradeNotes] = useState('');
   const [filteredTopic, setFilteredTopic] = useState('all');
 
-  // We'll store the fetched quote in state as an object with "quote" and "author"
-  const [quote, setQuote] = useState(null);
-
-  // On component mount: load topics, set today's date, and fetch a random quote
+  // Load data and set today's date on mount
   useEffect(() => {
-    // Load from localStorage
     const savedTopics = localStorage.getItem('habitTrackerTopics');
     if (savedTopics) {
       setTopics(JSON.parse(savedTopics));
     }
-
-    // Set today's date for the forms
     const today = new Date().toISOString().split('T')[0];
     setStudyDate(today);
     setGradeDate(today);
-
-    // Fetch a random quote from Quotable.io
-    fetch('https://api.quotable.io/random')
-      .then((res) => res.json())
-      .then((data) => {
-        // data.content = the quote text
-        // data.author = the quote's author
-        setQuote({ quote: data.content, author: data.author });
-      })
-      .catch((error) => {
-        console.error('Error fetching quote:', error);
-        // Provide a fallback quote if the fetch fails
-        setQuote({
-          quote: 'Believe in yourself even when no one else does.',
-          author: 'You'
-        });
-      });
   }, []);
 
-  // Save topics to localStorage whenever they change
+  // Save to localStorage whenever topics change
   useEffect(() => {
     localStorage.setItem('habitTrackerTopics', JSON.stringify(topics));
   }, [topics]);
@@ -136,7 +113,7 @@ export default function HabitTracker() {
     return topic.timeEntries.reduce((total, entry) => total + entry.hours, 0);
   };
 
-  // Get the latest grade for a topic
+  // Get latest grade for a topic
   const getLatestGrade = (topic) => {
     if (topic.grades.length === 0) return 'N/A';
     const latestGrade = topic.grades.reduce((latest, grade) => {
@@ -145,7 +122,7 @@ export default function HabitTracker() {
     return latestGrade.value;
   };
 
-  // Simple efficiency calculation: average grade / total hours
+  // Simple efficiency formula
   const getEfficiency = (topic) => {
     if (topic.grades.length === 0 || topic.timeEntries.length === 0)
       return 'N/A';
@@ -157,7 +134,7 @@ export default function HabitTracker() {
     return efficiency.toFixed(2);
   };
 
-  // Generate recommendations based on data
+  // Generate recommendation
   const getRecommendation = (topic) => {
     if (topic.grades.length === 0 || topic.timeEntries.length === 0) {
       return 'Log more data to get recommendations';
@@ -226,7 +203,8 @@ export default function HabitTracker() {
       <main className="flex-1 p-4 overflow-y-auto">
         {/* Dashboard View */}
         {activeView === 'dashboard' && (
-          <div>
+          /* Apply our fade-in animation to the Dashboard container */
+          <div className="fade-in">
             <div className="mb-6">
               <h2 className="text-xl font-semibold mb-4">Add New Topic</h2>
               <form onSubmit={handleAddTopic} className="flex items-center">
@@ -265,16 +243,6 @@ export default function HabitTracker() {
                     </option>
                   ))}
                 </select>
-              </div>
-            )}
-
-            {/* Motivational Quote Section */}
-            {quote && (
-              <div className="mt-8 p-4 bg-green-50 rounded shadow">
-                <p className="text-lg italic text-center">"{quote.quote}"</p>
-                <p className="text-sm text-gray-600 text-center mt-2">
-                  - {quote.author}
-                </p>
               </div>
             )}
 
