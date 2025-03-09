@@ -14,7 +14,9 @@ export default function HabitTracker() {
   const [gradeDate, setGradeDate] = useState('');
   const [gradeNotes, setGradeNotes] = useState('');
   const [filteredTopic, setFilteredTopic] = useState('all');
+  const [quote, setQuote] = useState(null);
 
+  // On component mount: load topics, set dates, and fetch the Quote of the Day
   useEffect(() => {
     const savedTopics = localStorage.getItem('habitTrackerTopics');
     if (savedTopics) {
@@ -23,6 +25,21 @@ export default function HabitTracker() {
     const today = new Date().toISOString().split('T')[0];
     setStudyDate(today);
     setGradeDate(today);
+
+    // Fetch Quote of the Day from They Said So API
+    fetch('https://quotes.rest/qod?language=en')
+      .then((response) => response.json())
+      .then((data) => {
+        if (
+          data &&
+          data.contents &&
+          data.contents.quotes &&
+          data.contents.quotes.length > 0
+        ) {
+          setQuote(data.contents.quotes[0]);
+        }
+      })
+      .catch((error) => console.error('Error fetching quote:', error));
   }, []);
 
   useEffect(() => {
@@ -45,7 +62,7 @@ export default function HabitTracker() {
   const handleDeleteTopic = (topicId) => {
     if (
       window.confirm(
-        "Are you sure you want to delete this topic? All associated data will be lost."
+        'Are you sure you want to delete this topic? All associated data will be lost.'
       )
     ) {
       const updatedTopics = topics.filter((topic) => topic.id !== topicId);
@@ -125,22 +142,22 @@ export default function HabitTracker() {
       topic.grades.reduce((sum, grade) => sum + grade.value, 0) /
       topic.grades.length;
     const totalHours = getTotalHours(topic);
-    const efficiency = avgGrade / totalHours; // simple formula
+    const efficiency = avgGrade / totalHours;
     return efficiency.toFixed(2);
   };
 
   const getRecommendation = (topic) => {
     if (topic.grades.length === 0 || topic.timeEntries.length === 0) {
-      return "Log more data to get recommendations";
+      return 'Log more data to get recommendations';
     }
     const avgGrade =
       topic.grades.reduce((sum, grade) => sum + grade.value, 0) /
       topic.grades.length;
     const efficiency = parseFloat(getEfficiency(topic));
     if (avgGrade < 70) {
-      return "Consider increasing study time for this topic";
+      return 'Consider increasing study time for this topic';
     } else if (efficiency < 5) {
-      return "Try different study techniques to improve efficiency";
+      return 'Try different study techniques to improve efficiency';
     } else {
       return "You're doing well! Maintain your current approach";
     }
@@ -239,6 +256,16 @@ export default function HabitTracker() {
               </div>
             )}
 
+            {/* Motivational Quote Section */}
+            {quote && (
+              <div className="mt-8 p-4 bg-green-50 rounded shadow">
+                <p className="text-lg italic text-center">"{quote.quote}"</p>
+                <p className="text-sm text-gray-600 text-center mt-2">
+                  - {quote.author}
+                </p>
+              </div>
+            )}
+
             {topics.length === 0 ? (
               <p className="text-gray-500">
                 No topics added yet. Add a topic to get started!
@@ -300,7 +327,7 @@ export default function HabitTracker() {
         {/* Log Time View */}
         {activeView === 'logTime' && (
           <div className="mt-8">
-            <h2 className="text-xl font-semibold mb-6 text-center">Log Study Time</h2>
+            <h2 className="text-xl font-semibold mb-6">Log Study Time</h2>
             {topics.length === 0 ? (
               <p className="text-gray-500">
                 Add a topic first before logging time.
@@ -311,7 +338,7 @@ export default function HabitTracker() {
                 className="bg-white p-6 rounded shadow"
               >
                 <div className="mb-4">
-                  <label className="block text-gray-700 mb-4">
+                  <label className="block text-gray-700 mb-2">
                     Select Topic
                   </label>
                   <select
@@ -329,24 +356,22 @@ export default function HabitTracker() {
                   </select>
                 </div>
 
-                <div className="mb-4">
-                  <label className="block text-gray-700 mb-2">
-                    Hours Spent
-                  </label>
+                <div className="mb-4 flex items-center">
+                  <label className="text-gray-700 mr-4">Hours Spent</label>
                   <input
                     type="number"
                     step="0.25"
                     min="0.25"
                     value={hoursSpent}
                     onChange={(e) => setHoursSpent(e.target.value)}
-                    className="w-full p-2 border rounded"
+                    className="p-2 border rounded flex-1"
                     placeholder="e.g., 1.5"
                     required
                   />
                 </div>
 
                 <div className="mb-4">
-                  <label className="block text-gray-700 mb-4">Date</label>
+                  <label className="block text-gray-700 mb-2">Date</label>
                   <input
                     type="date"
                     value={studyDate}
@@ -357,7 +382,7 @@ export default function HabitTracker() {
                 </div>
 
                 <div className="mb-4">
-                  <label className="block text-gray-700 mb-4">
+                  <label className="block text-gray-700 mb-2">
                     Notes (Optional)
                   </label>
                   <textarea
@@ -392,7 +417,7 @@ export default function HabitTracker() {
             ) : (
               <form onSubmit={handleAddGrade} className="bg-white p-4 rounded shadow">
                 <div className="mb-4">
-                  <label className="block text-gray-700 mb-4">
+                  <label className="block text-gray-700 mb-2">
                     Select Topic
                   </label>
                   <select
@@ -411,7 +436,7 @@ export default function HabitTracker() {
                 </div>
 
                 <div className="mb-4">
-                  <label className="block text-gray-700 mb-4">
+                  <label className="block text-gray-700 mb-2">
                     Grade/Score (0-100)
                   </label>
                   <input
@@ -427,7 +452,7 @@ export default function HabitTracker() {
                 </div>
 
                 <div className="mb-4">
-                  <label className="block text-gray-700 mb-4">Date</label>
+                  <label className="block text-gray-700 mb-2">Date</label>
                   <input
                     type="date"
                     value={gradeDate}
@@ -438,7 +463,7 @@ export default function HabitTracker() {
                 </div>
 
                 <div className="mb-4">
-                  <label className="block text-gray-700 mb-4">
+                  <label className="block text-gray-700 mb-2">
                     Notes (Optional)
                   </label>
                   <textarea
