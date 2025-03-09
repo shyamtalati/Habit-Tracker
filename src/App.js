@@ -300,7 +300,7 @@ export default function HabitTracker() {
         {/* Log Time View */}
         {activeView === 'logTime' && (
           <div className="mt-8">
-            <h2 className="text-xl font-semibold mb-6">Log Study Time</h2>
+            <h2 className="text-xl font-semibold mb-6 text-center">Log Study Time</h2>
             {topics.length === 0 ? (
               <p className="text-gray-500">
                 Add a topic first before logging time.
@@ -311,7 +311,7 @@ export default function HabitTracker() {
                 className="bg-white p-6 rounded shadow"
               >
                 <div className="mb-4">
-                  <label className="block text-gray-700 mb-2">
+                  <label className="block text-gray-700 mb-4">
                     Select Topic
                   </label>
                   <select
@@ -346,7 +346,7 @@ export default function HabitTracker() {
                 </div>
 
                 <div className="mb-4">
-                  <label className="block text-gray-700 mb-2">Date</label>
+                  <label className="block text-gray-700 mb-4">Date</label>
                   <input
                     type="date"
                     value={studyDate}
@@ -357,7 +357,7 @@ export default function HabitTracker() {
                 </div>
 
                 <div className="mb-4">
-                  <label className="block text-gray-700 mb-2">
+                  <label className="block text-gray-700 mb-4">
                     Notes (Optional)
                   </label>
                   <textarea
@@ -392,7 +392,7 @@ export default function HabitTracker() {
             ) : (
               <form onSubmit={handleAddGrade} className="bg-white p-4 rounded shadow">
                 <div className="mb-4">
-                  <label className="block text-gray-700 mb-2">
+                  <label className="block text-gray-700 mb-4">
                     Select Topic
                   </label>
                   <select
@@ -411,7 +411,7 @@ export default function HabitTracker() {
                 </div>
 
                 <div className="mb-4">
-                  <label className="block text-gray-700 mb-2">
+                  <label className="block text-gray-700 mb-4">
                     Grade/Score (0-100)
                   </label>
                   <input
@@ -427,7 +427,7 @@ export default function HabitTracker() {
                 </div>
 
                 <div className="mb-4">
-                  <label className="block text-gray-700 mb-2">Date</label>
+                  <label className="block text-gray-700 mb-4">Date</label>
                   <input
                     type="date"
                     value={gradeDate}
@@ -438,7 +438,7 @@ export default function HabitTracker() {
                 </div>
 
                 <div className="mb-4">
-                  <label className="block text-gray-700 mb-2">
+                  <label className="block text-gray-700 mb-4">
                     Notes (Optional)
                   </label>
                   <textarea
