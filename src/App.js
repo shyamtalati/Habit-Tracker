@@ -14,34 +14,42 @@ export default function HabitTracker() {
   const [gradeDate, setGradeDate] = useState('');
   const [gradeNotes, setGradeNotes] = useState('');
   const [filteredTopic, setFilteredTopic] = useState('all');
+
+  // We'll store the fetched quote in state as an object with "quote" and "author"
   const [quote, setQuote] = useState(null);
 
-  // On component mount: load topics, set dates, and fetch the Quote of the Day
+  // On component mount: load topics, set today's date, and fetch a random quote
   useEffect(() => {
+    // Load from localStorage
     const savedTopics = localStorage.getItem('habitTrackerTopics');
     if (savedTopics) {
       setTopics(JSON.parse(savedTopics));
     }
+
+    // Set today's date for the forms
     const today = new Date().toISOString().split('T')[0];
     setStudyDate(today);
     setGradeDate(today);
 
-    // Fetch Quote of the Day from They Said So API
-    fetch('https://quotes.rest/qod?language=en')
-      .then((response) => response.json())
+    // Fetch a random quote from Quotable.io
+    fetch('https://api.quotable.io/random')
+      .then((res) => res.json())
       .then((data) => {
-        if (
-          data &&
-          data.contents &&
-          data.contents.quotes &&
-          data.contents.quotes.length > 0
-        ) {
-          setQuote(data.contents.quotes[0]);
-        }
+        // data.content = the quote text
+        // data.author = the quote's author
+        setQuote({ quote: data.content, author: data.author });
       })
-      .catch((error) => console.error('Error fetching quote:', error));
+      .catch((error) => {
+        console.error('Error fetching quote:', error);
+        // Provide a fallback quote if the fetch fails
+        setQuote({
+          quote: 'Believe in yourself even when no one else does.',
+          author: 'You'
+        });
+      });
   }, []);
 
+  // Save topics to localStorage whenever they change
   useEffect(() => {
     localStorage.setItem('habitTrackerTopics', JSON.stringify(topics));
   }, [topics]);
@@ -123,10 +131,12 @@ export default function HabitTracker() {
     setGradeNotes('');
   };
 
+  // Calculate total hours for a topic
   const getTotalHours = (topic) => {
     return topic.timeEntries.reduce((total, entry) => total + entry.hours, 0);
   };
 
+  // Get the latest grade for a topic
   const getLatestGrade = (topic) => {
     if (topic.grades.length === 0) return 'N/A';
     const latestGrade = topic.grades.reduce((latest, grade) => {
@@ -135,6 +145,7 @@ export default function HabitTracker() {
     return latestGrade.value;
   };
 
+  // Simple efficiency calculation: average grade / total hours
   const getEfficiency = (topic) => {
     if (topic.grades.length === 0 || topic.timeEntries.length === 0)
       return 'N/A';
@@ -146,6 +157,7 @@ export default function HabitTracker() {
     return efficiency.toFixed(2);
   };
 
+  // Generate recommendations based on data
   const getRecommendation = (topic) => {
     if (topic.grades.length === 0 || topic.timeEntries.length === 0) {
       return 'Log more data to get recommendations';
@@ -415,7 +427,10 @@ export default function HabitTracker() {
                 Add a topic first before logging grades.
               </p>
             ) : (
-              <form onSubmit={handleAddGrade} className="bg-white p-4 rounded shadow">
+              <form
+                onSubmit={handleAddGrade}
+                className="bg-white p-4 rounded shadow"
+              >
                 <div className="mb-4">
                   <label className="block text-gray-700 mb-2">
                     Select Topic
