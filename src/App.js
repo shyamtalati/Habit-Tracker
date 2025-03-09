@@ -457,24 +457,24 @@ export default function HabitTracker() {
               <p className="text-gray-500">No grades entered yet.</p>
             ) : (
               <div className="overflow-x-auto">
-                <table className="min-w-full text-sm border-collapse">
+                <table className="table-auto w-full text-sm border-collapse">
                   <thead>
                     <tr className="bg-blue-50">
-                      <th className="border p-2">Topic</th>
-                      <th className="border p-2">Type</th>
-                      <th className="border p-2">Grade</th>
-                      <th className="border p-2">Date</th>
-                      <th className="border p-2">Notes</th>
+                      <th className="border px-6 py-2">Topic</th>
+                      <th className="border px-6 py-2">Type</th>
+                      <th className="border px-6 py-2">Grade</th>
+                      <th className="border px-6 py-2">Date</th>
+                      <th className="border px-6 py-2">Notes</th>
                     </tr>
                   </thead>
                   <tbody>
                     {allGrades.map((grade) => (
                       <tr key={grade.id} className="text-center">
-                        <td className="border p-2">{grade.topicName}</td>
-                        <td className="border p-2">{grade.type || 'N/A'}</td>
-                        <td className="border p-2">{grade.value}</td>
-                        <td className="border p-2">{grade.date}</td>
-                        <td className="border p-2">{grade.notes}</td>
+                        <td className="border px-6 py-2">{grade.topicName}</td>
+                        <td className="border px-6 py-2">{grade.type || 'N/A'}</td>
+                        <td className="border px-6 py-2">{grade.value}</td>
+                        <td className="border px-6 py-2">{grade.date}</td>
+                        <td className="border px-6 py-2">{grade.notes}</td>
                       </tr>
                     ))}
                   </tbody>
